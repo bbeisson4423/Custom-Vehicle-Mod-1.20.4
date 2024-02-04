@@ -1,6 +1,8 @@
 package net.beison555.cvm;
 
 import com.mojang.logging.LogUtils;
+import net.beison555.cvm.item.ModCreativeModeTabs;
+import net.beison555.cvm.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -13,19 +15,23 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+/**
+ * メインクラス
+ */
 @Mod(CustomVehicleMod.MOD_ID)
 public class CustomVehicleMod {
-    // Define mod id in a common place for everything to reference
-    public static final String MOD_ID = "custom_vehicle_mod";
-    // Directly reference a slf4j logger
+    public static final String MOD_ID = "cvm";
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public CustomVehicleMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modEventBus.addListener(this::commonSetup);
+        // クリエイティブタブを定義
+        ModCreativeModeTabs.register(modEventBus);
+        // MOD産アイテムを追加
+        ModItems.register(modEventBus);
 
+        modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
     }
