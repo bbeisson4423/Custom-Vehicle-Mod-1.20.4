@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CustomVehicleMod.MOD_ID);
 
-    public static final RegistryObject<Item> VEHICLE_TABLET = ITEMS.register("vehicle_tablet",
+    public static final RegistryObject<Item> BP_VEHICLE_TABLET = ITEMS.register("bp_vehicle_tablet",
             () -> new Item(new Item.Properties()));
     
     public static void register(IEventBus eventBus) {

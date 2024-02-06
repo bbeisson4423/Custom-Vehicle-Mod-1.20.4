@@ -17,10 +17,10 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CustomVehicleMod.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> COURSE_TAB = CREATIVE_MODE_TABS.register("cvm_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.VEHICLE_TABLET.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BP_VEHICLE_TABLET.get()))
                     .title(Component.translatable("creativetab.cvm_tab"))
                     .displayItems((displayParameters, output) -> {
-                        output.accept(ModItems.VEHICLE_TABLET.get());
+                        output.accept(ModItems.BP_VEHICLE_TABLET.get());
                     }).build());
 
     public static void register(IEventBus eventBus){
