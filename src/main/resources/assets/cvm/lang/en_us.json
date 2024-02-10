@@ -1,5 +1,12 @@
 {
+  "category.cvm": "Car",
+
   "item.cvm.bp_vehicle_tablet" : "Vehicle Tablet",
 
-  "creativetab.cvm_tab" : "Custom Vehicle Mod"
+  "creativetab.cvm_tab" : "Custom Vehicle Mod",
+
+  "key.car_forward": "Forward",
+  "key.car_back": "Back",
+  "key.car_left": "Left",
+  "key.car_right": "Right"
 }

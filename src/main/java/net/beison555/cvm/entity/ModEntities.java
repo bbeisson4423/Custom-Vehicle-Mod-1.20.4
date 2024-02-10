@@ -13,9 +13,10 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, CustomVehicleMod.MOD_ID);
 
+    // sized(横サイズ,縦サイズ)
     public static final RegistryObject<EntityType<TestVehicleEntity>> TEST_VEHICLE =
             ENTITY_TYPES.register("test_vehicle", () -> EntityType.Builder.of(TestVehicleEntity::new, MobCategory.CREATURE)
-                    .sized(2.5f, 2.5f).build("test_vehicle"));
+                    .sized(4f, 2f).build("test_vehicle"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

@@ -1,5 +1,12 @@
 {
+  "category.cvm": "Car",
+
   "item.cvm.bp_vehicle_tablet" : "車両タブレット",
 
-  "creativetab.cvm_tab" : "Custom Vehicle Mod"
+  "creativetab.cvm_tab" : "Custom Vehicle Mod",
+
+  "key.car_forward": "前進",
+  "key.car_back": "後退",
+  "key.car_left": "左旋回",
+  "key.car_right": "右旋回"
 }

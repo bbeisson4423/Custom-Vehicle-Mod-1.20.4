@@ -22,11 +22,17 @@ public class TestVehicleRenderer extends EntityRenderer<TestVehicleEntity> {
     }
 
     @Override
+    /**
+     * modelに紐づくテクスチャのファイルパスを取得する
+     */
     public ResourceLocation getTextureLocation(TestVehicleEntity pEntity) {
         return new ResourceLocation(CustomVehicleMod.MOD_ID, "textures/entity/car_basic_texture.png");
     }
 
     @Override
+    /**
+     * PoseStackを設定してentityを描画する？
+     */
     public void render(TestVehicleEntity entity, float yaw, float tickDelta, PoseStack pose, MultiBufferSource buffers, int light) {
         pose.pushPose();
         pose.mulPose(Axis.ZP.rotationDegrees(180.0F));
