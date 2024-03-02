@@ -1,7 +1,7 @@
 package net.beison555.cvm.event;
 
 import net.beison555.cvm.CustomVehicleMod;
-import net.beison555.cvm.entity.custom.TestVehicleEntity;
+import net.beison555.cvm.entity.custom.general.CustomVehicleEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -28,14 +28,14 @@ public class KeyEvents {
 
         Entity riding = player.getVehicle();
 
-        if (!(riding instanceof TestVehicleEntity)) {
+        if (!(riding instanceof CustomVehicleEntity)) {
             return;
         }
 
         /**
          * エンティティ動作を制御する(キー入力があれば反映する)
          */
-        TestVehicleEntity vehicle = (TestVehicleEntity) riding;
+        CustomVehicleEntity vehicle = (CustomVehicleEntity) riding;
         if (player.equals(vehicle.getDriver())) {
             vehicle.updateControls(CustomVehicleMod.FORWARD_KEY.isDown(), CustomVehicleMod.BACK_KEY.isDown(), CustomVehicleMod.LEFT_KEY.isDown(), CustomVehicleMod.RIGHT_KEY.isDown(), player);
         }

@@ -2,7 +2,8 @@ package net.beison555.cvm;
 
 import com.mojang.logging.LogUtils;
 import net.beison555.cvm.entity.ModEntities;
-import net.beison555.cvm.entity.client.TestVehicleRenderer;
+import net.beison555.cvm.entity.client.renderer.TestBodyRenderer;
+import net.beison555.cvm.entity.client.renderer.TestVehicleRenderer;
 import net.beison555.cvm.event.KeyEvents;
 import net.beison555.cvm.item.ModCreativeModeTabs;
 import net.beison555.cvm.item.ModItems;
@@ -49,6 +50,7 @@ public class CustomVehicleMod {
         ModItems.register(modEventBus);
         // MOD産エンティティを追加
         ModEntities.register(modEventBus);
+
         // キー入力時イベントを追加
         MinecraftForge.EVENT_BUS.register(new KeyEvents());
 
@@ -82,6 +84,8 @@ public class CustomVehicleMod {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.TEST_VEHICLE.get(), TestVehicleRenderer::new);
+            EntityRenderers.register(ModEntities.TEST_BODY.get(), TestBodyRenderer::new);
+//            EntityRenderers.register(CAR_ENTITY_TYPE.get(), GenericCarModel::new);
         }
     }
 

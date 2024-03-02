@@ -1,10 +1,11 @@
-package net.beison555.cvm.entity.client;
+package net.beison555.cvm.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.beison555.cvm.CustomVehicleMod;
-import net.beison555.cvm.entity.custom.TestVehicleEntity;
+import net.beison555.cvm.entity.client.model.TestVehicleModel;
+import net.beison555.cvm.entity.custom.base.TestVehicleEntity;
 import net.beison555.cvm.entity.layers.ModModelLayers;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

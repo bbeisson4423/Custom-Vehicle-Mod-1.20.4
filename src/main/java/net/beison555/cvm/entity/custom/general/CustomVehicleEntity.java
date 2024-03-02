@@ -1,6 +1,5 @@
 package net.beison555.cvm.entity.custom.general;
 
-import net.beison555.cvm.entity.ModEntities;
 import net.beison555.cvm.util.MathUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -23,6 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomVehicleEntity extends Entity implements PlayerRideable {
@@ -50,6 +50,9 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
     private float rotationModifier;
     private float pitch;
 
+    private double CarWidth;
+    private double CarHeight;
+
     @OnlyIn(Dist.CLIENT)
     private boolean collidedLastTick;
 
@@ -59,7 +62,8 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
      * @param pLevel
      */
     public CustomVehicleEntity(EntityType<? extends Entity> pEntityType, Level pLevel) {
-        super(ModEntities.TEST_VEHICLE.get(), pLevel);
+//        super(ModEntities.TEST_VEHICLE.get(), pLevel);
+        super(pEntityType, pLevel);
         this.blocksBuilding = true;
         this.setMaxUpStep(1f);
         recalculateBoundingBox();
@@ -494,6 +498,7 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
 
         return null;
     }
+
     public boolean canPlayerDriveCar(Player player) {
         if (player.equals(getDriver())) {
             return true;
@@ -508,10 +513,16 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
      * エンティティの当たり判定を取得する
      */
     public double getCarWidth() {
-        return 4D;
+        return CarWidth;
+    }
+    public void setCarWidth(double carWidth) {
+        CarWidth = carWidth;
     }
     public double getCarHeight() {
-        return 2D;
+        return CarHeight;
+    }
+    public void setCarHeight(double carHeight) {
+        CarHeight = carHeight;
     }
 
     /**

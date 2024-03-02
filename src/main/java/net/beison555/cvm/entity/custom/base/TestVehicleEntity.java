@@ -1,4 +1,4 @@
-package net.beison555.cvm.entity.custom;
+package net.beison555.cvm.entity.custom.base;
 
 import net.beison555.cvm.entity.ModEntities;
 import net.beison555.cvm.entity.custom.general.CustomVehicleEntity;
@@ -28,6 +28,9 @@ public class TestVehicleEntity extends CustomVehicleEntity {
         setRollResistance(0.02f);
         setRotationModifier(0.5f);
         setPitch(3.0f);
+
+        setCarWidth(4D);
+        setCarHeight(2D);
     }
     //========================================【パラメータ設定(E)】========================================
 

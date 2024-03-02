@@ -1,8 +1,8 @@
-package net.beison555.cvm.entity.client;
+package net.beison555.cvm.entity.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.beison555.cvm.entity.custom.TestVehicleEntity;
+import net.beison555.cvm.entity.custom.base.TestVehicleEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
