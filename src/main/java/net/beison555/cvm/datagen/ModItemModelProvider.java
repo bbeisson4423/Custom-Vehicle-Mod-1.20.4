@@ -1,6 +1,7 @@
 package net.beison555.cvm.datagen;
 
 import net.beison555.cvm.CustomVehicleMod;
+import net.beison555.cvm.block.ModBlocks;
 import net.beison555.cvm.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +24,8 @@ public class ModItemModelProvider extends ItemModelProvider {
      */
     protected void registerModels() {
         simpleItem(ModItems.BP_VEHICLE_TABLET);
+
+        complexBlock(ModBlocks.MATERIALIZATION_DEVICE.get());
     }
 
     private ItemModelBuilder saplingItem(RegistryObject<Block> item) {

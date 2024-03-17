@@ -1,6 +1,7 @@
 package net.beison555.cvm.item;
 
 import net.beison555.cvm.CustomVehicleMod;
+import net.beison555.cvm.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -21,6 +22,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.cvm_tab"))
                     .displayItems((displayParameters, output) -> {
                         output.accept(ModItems.BP_VEHICLE_TABLET.get());
+                        output.accept(ModBlocks.MATERIALIZATION_DEVICE.get());
                     }).build());
 
     public static void register(IEventBus eventBus){

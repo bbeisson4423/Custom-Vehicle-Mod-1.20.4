@@ -1,13 +1,18 @@
 package net.beison555.cvm;
 
 import com.mojang.logging.LogUtils;
+import net.beison555.cvm.block.ModBlocks;
+import net.beison555.cvm.block.entity.ModBlockEntities;
 import net.beison555.cvm.entity.ModEntities;
 import net.beison555.cvm.entity.client.renderer.TestBodyRenderer;
 import net.beison555.cvm.entity.client.renderer.TestVehicleRenderer;
 import net.beison555.cvm.event.KeyEvents;
 import net.beison555.cvm.item.ModCreativeModeTabs;
 import net.beison555.cvm.item.ModItems;
+import net.beison555.cvm.screen.MaterializationDeviceScreen;
+import net.beison555.cvm.screen.ModMenuTypes;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,8 +53,14 @@ public class CustomVehicleMod {
         ModCreativeModeTabs.register(modEventBus);
         // MOD産アイテムを追加
         ModItems.register(modEventBus);
+        // MOD産ブロックを追加
+        ModBlocks.register(modEventBus);
+        // MOD産ブロックエンティティを追加
+        ModBlockEntities.register(modEventBus);
         // MOD産エンティティを追加
         ModEntities.register(modEventBus);
+        // MOD産メニューを追加
+        ModMenuTypes.register(modEventBus);
 
         // キー入力時イベントを追加
         MinecraftForge.EVENT_BUS.register(new KeyEvents());
@@ -85,7 +96,7 @@ public class CustomVehicleMod {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.TEST_VEHICLE.get(), TestVehicleRenderer::new);
             EntityRenderers.register(ModEntities.TEST_BODY.get(), TestBodyRenderer::new);
-//            EntityRenderers.register(CAR_ENTITY_TYPE.get(), GenericCarModel::new);
+            MenuScreens.register(ModMenuTypes.MATERIALIZATION_DEVICE_MENU.get(), MaterializationDeviceScreen::new);
         }
     }
 

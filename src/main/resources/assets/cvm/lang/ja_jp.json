@@ -1,6 +1,8 @@
 {
   "category.cvm": "Car",
 
+  "block.cvm.materialization_device" : "実体化装置",
+
   "item.cvm.bp_vehicle_tablet" : "車両タブレット",
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
