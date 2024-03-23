@@ -7,6 +7,8 @@
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
 
+  "container.cvm.materialization_device" : "Materialization Device",
+
   "key.car_forward": "Forward",
   "key.car_back": "Back",
   "key.car_left": "Left",

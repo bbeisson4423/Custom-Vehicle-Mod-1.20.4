@@ -3,20 +3,12 @@ package net.beison555.cvm.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.beison555.cvm.block.entity.MaterializationDeviceBlockEntity;
 import net.beison555.cvm.block.entity.ModBlockEntities;
-import net.beison555.cvm.screen.MaterializationDeviceMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -36,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 public class MaterializationDeviceBlock extends BaseEntityBlock {
     public static final MapCodec<MaterializationDeviceBlock> CODEC = simpleCodec(MaterializationDeviceBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final Component UI_TITLE = Component.translatable("container.automobility.auto_mechanic_table");
+    public static final Component UI_TITLE = Component.translatable("container.cvm.materialization_device");
 
     public MaterializationDeviceBlock(Properties pProperties) {
         super(pProperties);

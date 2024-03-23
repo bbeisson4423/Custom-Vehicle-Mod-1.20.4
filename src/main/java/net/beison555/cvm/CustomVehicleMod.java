@@ -48,6 +48,7 @@ public class CustomVehicleMod {
 
     public CustomVehicleMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        MinecraftForge.EVENT_BUS.register(this);
 
         // クリエイティブタブを定義
         ModCreativeModeTabs.register(modEventBus);
@@ -61,12 +62,10 @@ public class CustomVehicleMod {
         ModEntities.register(modEventBus);
         // MOD産メニューを追加
         ModMenuTypes.register(modEventBus);
-
         // キー入力時イベントを追加
         MinecraftForge.EVENT_BUS.register(new KeyEvents());
 
         modEventBus.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
 
         if (FMLEnvironment.dist.isClient()) {

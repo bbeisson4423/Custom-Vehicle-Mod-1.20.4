@@ -28,14 +28,17 @@ public class MaterializationDeviceMenu extends AbstractContainerMenu {
         this.level = inv.player.level();
         this.data = data;
 
+        // プレイヤーインベントリ内容を定義
         addPlayerInventory(inv);
+        // プレイヤーホットバー内容を定義
         addPlayerHotbar(inv);
 
+        // GUI独自のアイテムスロットを定義(基準点は画面左端？)
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 26, 59));
+//            this.addSlot(new SlotItemHandler(iItemHandler, 1, 26, 59));
             this.addSlot(new SlotItemHandler(iItemHandler, 2, 80, 59));
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 134, 59));
+//            this.addSlot(new SlotItemHandler(iItemHandler, 3, 134, 59));
         });
 
         addDataSlots(data);
@@ -122,4 +125,13 @@ public class MaterializationDeviceMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
+    public MaterializationDeviceBlockEntity getBlockEntity() {
+        return blockEntity;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
 }

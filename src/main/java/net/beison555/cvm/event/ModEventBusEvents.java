@@ -3,9 +3,11 @@ package net.beison555.cvm.event;
 import net.beison555.cvm.CustomVehicleMod;
 import net.beison555.cvm.entity.client.model.*;
 import net.beison555.cvm.entity.layers.ModModelLayers;
+import net.beison555.cvm.net.PacketHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = CustomVehicleMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
@@ -23,5 +25,12 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(ModModelLayers.TEST_MIDDLE_LAYER, TestMiddleModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TEST_REAR_LAYER, TestRearModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TEST_TIRE_LAYER, TestTireModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public static void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            PacketHandler.register();
+        });
     }
 }
