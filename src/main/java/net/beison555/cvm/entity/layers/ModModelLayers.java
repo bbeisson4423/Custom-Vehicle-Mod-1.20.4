@@ -18,4 +18,11 @@ public class ModModelLayers {
             new ResourceLocation(CustomVehicleMod.MOD_ID, "test_rear_layer"), "test_rear_layer");
     public static final ModelLayerLocation TEST_TIRE_LAYER = new ModelLayerLocation(
             new ResourceLocation(CustomVehicleMod.MOD_ID, "test_tire_layer"), "test_tire_layer");
+
+    public static final ModelLayerLocation CURVE_FRONT_LAYER = new ModelLayerLocation(
+            new ResourceLocation(CustomVehicleMod.MOD_ID, "curve_front_layer"), "curve_front_layer");
+    public static final ModelLayerLocation CURVE_MIDDLE_LAYER = new ModelLayerLocation(
+            new ResourceLocation(CustomVehicleMod.MOD_ID, "curve_middle_layer"), "curve_middle_layer");
+    public static final ModelLayerLocation CURVE_REAR_LAYER = new ModelLayerLocation(
+            new ResourceLocation(CustomVehicleMod.MOD_ID, "curve_rear_layer"), "curve_rear_layer");
 }

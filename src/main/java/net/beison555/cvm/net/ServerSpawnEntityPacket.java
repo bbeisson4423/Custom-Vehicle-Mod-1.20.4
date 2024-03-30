@@ -1,8 +1,10 @@
 package net.beison555.cvm.net;
 
 import net.beison555.cvm.block.custom.MaterializationDeviceBlock;
+import net.beison555.cvm.block.entity.MaterializationDeviceBlockEntity;
 import net.beison555.cvm.entity.ModEntities;
-import net.beison555.cvm.entity.custom.base.TestBodyEntity;
+import net.beison555.cvm.entity.custom.general.CustomVehicleEntity;
+import net.beison555.cvm.util.CodeConst;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
@@ -18,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraftforge.items.ItemStackHandler;
 
 import static net.minecraft.world.level.block.Rotation.NONE;
 
@@ -29,7 +33,12 @@ public class ServerSpawnEntityPacket {
     public void encode(FriendlyByteBuf buffer) {
     }
 
+    /**
+     * 車両端末の情報からエンティティをスポーンさせる
+     * @param context
+     */
     public void handle(CustomPayloadEvent.Context context) {
+        CustomVehicleEntity vEntity = null;
         ServerPlayer player = context.getSender();
         if(player == null){
             return;
@@ -41,7 +50,30 @@ public class ServerSpawnEntityPacket {
         BlockEntity bEntity = level.getBlockEntity(blockpos);
         Direction dir = bEntity.getBlockState().getValue(MaterializationDeviceBlock.FACING);
 
-        TestBodyEntity vEntity = ModEntities.TEST_BODY.get().create(level);
+        if(bEntity instanceof MaterializationDeviceBlockEntity){
+            String type = "";
+            ItemStackHandler itemStackHandler = ((MaterializationDeviceBlockEntity) bEntity).getItemHandler();
+            ItemStack pStack = itemStackHandler.getStackInSlot(0);
+            type = pStack.getTag().getString("cvm.type");
+
+            switch(type){
+                case "curve":
+                    vEntity = ModEntities.TEST_BODY.get().create(level);
+                    vEntity.setPartsFront(CodeConst.PARTS_T3_FRONT_CURVE);
+                    vEntity.setPartsMiddle(CodeConst.PARTS_T3_MIDDLE_CURVE);
+                    vEntity.setPartsRear(CodeConst.PARTS_T3_REAR_CURVE);
+                    vEntity.setPartsTire(CodeConst.PARTS_T3_TIRE_TEST);
+                    break;
+                default:
+                    vEntity = ModEntities.TEST_BODY.get().create(level);
+                    vEntity.setPartsFront(CodeConst.PARTS_T3_FRONT_TEST);
+                    vEntity.setPartsMiddle(CodeConst.PARTS_T3_MIDDLE_TEST);
+                    vEntity.setPartsRear(CodeConst.PARTS_T3_REAR_TEST);
+                    vEntity.setPartsTire(CodeConst.PARTS_T3_TIRE_TEST);
+                    break;
+            }
+        }
+
         // ブロックの向いている方角によってスポーン位置を設定する
         Double xPos = 0D;
         Rotation yRotation = NONE;
@@ -69,7 +101,6 @@ public class ServerSpawnEntityPacket {
                 zPos = 0D;
                 break;
         }
-        System.out.println("FACING:" + dir);
         vEntity.moveTo((double)blockpos.getX() + xPos, (double)blockpos.getY(), (double)blockpos.getZ() + zPos, 0.0F, 0.0F);
         vEntity.setYRot(yRot);
         vEntity.rotate(yRotation);
@@ -87,7 +118,7 @@ public class ServerSpawnEntityPacket {
      * @param fluid
      * @return
      */
-    protected static BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
+    private static BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
         float f = player.getXRot();
         float f1 = player.getYRot();
         Vec3 vec3 = player.getEyePosition();

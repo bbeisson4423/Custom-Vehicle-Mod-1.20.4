@@ -1,6 +1,7 @@
 package net.beison555.cvm.block.entity;
 
 import net.beison555.cvm.block.custom.MaterializationDeviceBlock;
+import net.beison555.cvm.item.ModItems;
 import net.beison555.cvm.screen.MaterializationDeviceMenu;
 import net.beison555.cvm.util.InventoryDirectionEntry;
 import net.beison555.cvm.util.InventoryDirectionWrapper;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -175,7 +175,7 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Materialization Device");
+        return Component.translatable("container.cvm.materialization_device");
     }
 
     @Nullable
@@ -261,17 +261,17 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
     }
 
     public void tick(Level level, BlockPos pPos, BlockState pState) {
-        if (isOutputSlotEmptyOrReceivable() && hasRecipe()) {
-            increaseCraftingProcess();
-            setChanged(level, pPos, pState);
-
-            if (hasProgressFinished()) {
-                craftItem();
-                resetProgress();
-            }
-        } else {
-            resetProgress();
-        }
+//        if (isOutputSlotEmptyOrReceivable() && hasRecipe()) {
+//            increaseCraftingProcess();
+//            setChanged(level, pPos, pState);
+//
+//            if (hasProgressFinished()) {
+//                craftItem();
+//                resetProgress();
+//            }
+//        } else {
+//            resetProgress();
+//        }
     }
 
     private void craftItem() {
@@ -295,28 +295,32 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
         this.progress++;
     }
 
-    private boolean hasRecipe() {
-//        return canInsertAmountIntoOutputSlot(1) && canInsertItemIntoOutputSlot(ModItems.ALEXANDRITE.get())
+    public boolean hasVehicleTablet() {
+        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == ModItems.VEHICLE_TABLET.get();
+    }
+
+    public ItemStackHandler getItemHandler() {
+        return this.itemHandler;
+    }
+
+//    private boolean hasRecipe() {
+//        return canInsertAmountIntoOutputSlot(1) && canInsertItemIntoOutputSlot(Items.IRON_BARS)
 //                && hasRecipeItemInInputSlot();
-        return canInsertAmountIntoOutputSlot(1) && canInsertItemIntoOutputSlot(Items.IRON_BARS)
-                && hasRecipeItemInInputSlot();
-    }
+//    }
 
-    private boolean hasRecipeItemInInputSlot() {
-        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == Items.IRON_ORE;
-    }
+//    private boolean hasRecipeItemInInputSlot() {
+//        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == Items.IRON_ORE;
+//    }
+//    private boolean canInsertItemIntoOutputSlot(Item item) {
+//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
+//    }
+//    private boolean canInsertAmountIntoOutputSlot(int count) {
+//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize() >=
+//                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count;
+//    }
+//    private boolean isOutputSlotEmptyOrReceivable() {
+//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
+//                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() < this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+//    }
 
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
-    }
-
-    private boolean canInsertAmountIntoOutputSlot(int count) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize() >=
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count;
-    }
-
-    private boolean isOutputSlotEmptyOrReceivable() {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() < this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
-    }
 }

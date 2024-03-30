@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cvm:item/bp_vehicle_tablet"
+    "layer0": "cvm:item/vehicle_tablet"
   }
 }

@@ -1,4 +1,4 @@
-package net.beison555.cvm.entity.client.model;
+package net.beison555.cvm.entity.client.model.test;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

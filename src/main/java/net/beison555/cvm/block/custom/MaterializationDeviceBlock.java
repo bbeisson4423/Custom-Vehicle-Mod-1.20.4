@@ -28,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 public class MaterializationDeviceBlock extends BaseEntityBlock {
     public static final MapCodec<MaterializationDeviceBlock> CODEC = simpleCodec(MaterializationDeviceBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final Component UI_TITLE = Component.translatable("container.cvm.materialization_device");
 
     public MaterializationDeviceBlock(Properties pProperties) {
         super(pProperties);

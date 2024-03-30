@@ -3,11 +3,13 @@
 
   "block.cvm.materialization_device" : "実体化装置",
 
-  "item.cvm.bp_vehicle_tablet" : "車両タブレット",
+  "item.cvm.vehicle_tablet" : "車両タブレット",
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
 
-  "container.cvm.materialization_device" : "Materialization Device",
+  "container.cvm.materialization_device" : "実体化装置",
+
+  "button.cvm.materialization_device.spawn_car" : "車両展開",
 
   "key.car_forward": "前進",
   "key.car_back": "後退",

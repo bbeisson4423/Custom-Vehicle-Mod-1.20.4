@@ -5,6 +5,7 @@ import net.beison555.cvm.CustomVehicleMod;
 import net.beison555.cvm.net.PacketHandler;
 import net.beison555.cvm.net.ServerSpawnEntityPacket;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -12,10 +13,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
 
 public class MaterializationDeviceScreen extends AbstractContainerScreen<MaterializationDeviceMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(CustomVehicleMod.MOD_ID,"textures/gui/materialization_device_gui.png");
+    private static final int FONT_COLOR = 4210752;
+
+    private Level level;
+    private Button buttonSpawn;
 
     public MaterializationDeviceScreen(MaterializationDeviceMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -26,36 +32,57 @@ public class MaterializationDeviceScreen extends AbstractContainerScreen<Materia
         super.init();
         this.inventoryLabelY = 10000;
         this.titleLabelY = 10000;
-    }
+        this.level = getMenu().getLevel();
 
-    /**
-     * クリック時動作を定義
-     * @param mouseX
-     * @param mouseY
-     * @param mouseButton
-     * @return
-     */
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        // isHovering(始点X座標,始点Y座標,幅X座標,幅Y座標)
-        boolean clicked = false;
-        // 左クリック時動作を定義
-        if(mouseButton == 0) {
-            // 組み立てボタン
-            if(isHovering(110, 33, 49, 18, mouseX, mouseY)) {
-                clicked = true;
+        // ボタン定義を追加
+        // 実体化ボタン
+        buttonSpawn = addRenderableWidget(Button.builder(Component.translatable("button.cvm.materialization_device.spawn_car"), button -> {
+            if (level.isClientSide) {
+                // クリック音を再生
+                minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.f));
                 // エンティティを召喚する
                 PacketHandler.sendToServer(new ServerSpawnEntityPacket());
             }
+        }).bounds(leftPos + 110, topPos + 33, 49, 18).build());
+    }
 
-            if(clicked){
-                // クリック音を再生
-                minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.f));
-            }
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderLabels(guiGraphics, mouseX, mouseY);
+
+        // タイトル
+        guiGraphics.drawString(font, getMenu().getBlockEntity().getDisplayName().getVisualOrderText(), 8, 6, FONT_COLOR, false);
+        guiGraphics.drawString(font, playerInventoryTitle.getVisualOrderText(), 8, imageHeight - 96 + 2, FONT_COLOR, false);
+
+        // 車両展開ボタン
+        boolean hasVehicletablet = getMenu().getBlockEntity().hasVehicleTablet();
+        if(hasVehicletablet){
+            // 車両タブレットがGUIインベントリ内にある場合のみボタンを活性化
+            buttonSpawn.active = true;
+        }else{
+            buttonSpawn.active = false;
         }
 
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
     }
+
+//    /**
+//     * クリック時動作を定義
+//     * @param mouseX
+//     * @param mouseY
+//     * @param mouseButton
+//     * @return
+//     */
+//    @Override
+//    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+//        // isHovering(始点X座標,始点Y座標,幅X座標,幅Y座標)
+//        boolean clicked = false;
+//        // 左クリック時動作を定義
+//        if(mouseButton == 0) {
+//        }
+//
+//        return super.mouseClicked(mouseX, mouseY, mouseButton);
+//    }
 
     /**
      * GUI描画内容を定義
@@ -74,16 +101,7 @@ public class MaterializationDeviceScreen extends AbstractContainerScreen<Materia
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        renderButton(guiGraphics, x, y, pMouseX, pMouseY);
         renderProgressArrow(guiGraphics, x, y);
-    }
-
-    private void renderButton(GuiGraphics guiGraphics, int x, int y, int pMouseX, int pMouseY) {
-        // guiGraphics.blit(上書きX座標,上書きY座標,始点X座標,始点Y座標,幅X座標,幅Y座標)
-        if(isHovering(110, 33, 49, 18, pMouseX, pMouseY)) {
-            guiGraphics.blit(TEXTURE, x + 110, y + 33, 177, 27, 50, 20);
-        }
-
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {

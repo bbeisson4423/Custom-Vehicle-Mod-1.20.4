@@ -1,15 +1,12 @@
-package net.beison555.cvm.entity.client.model;
+package net.beison555.cvm.entity.client.model.test;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.beison555.cvm.CustomVehicleMod;
-import net.beison555.cvm.entity.custom.base.TestBodyEntity;
 import net.beison555.cvm.entity.custom.general.CustomVehicleEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 
 public class TestBodyModel<T extends CustomVehicleEntity> extends HierarchicalModel<T> {
 	private final ModelPart root;

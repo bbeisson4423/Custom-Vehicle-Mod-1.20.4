@@ -23,7 +23,7 @@ public class ModItemModelProvider extends ItemModelProvider {
      * アイテム追加用プロバイダー
      */
     protected void registerModels() {
-        simpleItem(ModItems.BP_VEHICLE_TABLET);
+        simpleItem(ModItems.VEHICLE_TABLET);
 
         complexBlock(ModBlocks.MATERIALIZATION_DEVICE.get());
     }

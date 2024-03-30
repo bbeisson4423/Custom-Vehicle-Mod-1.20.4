@@ -3,11 +3,13 @@
 
   "block.cvm.materialization_device" : "Materialization Device",
 
-  "item.cvm.bp_vehicle_tablet" : "Vehicle Tablet",
+  "item.cvm.vehicle_tablet" : "Vehicle Tablet",
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
 
   "container.cvm.materialization_device" : "Materialization Device",
+
+  "button.cvm.materialization_device.spawn_car" : "deploy",
 
   "key.car_forward": "Forward",
   "key.car_back": "Back",

@@ -1,5 +1,6 @@
 package net.beison555.cvm.entity.custom.general;
 
+import net.beison555.cvm.util.InputCheck;
 import net.beison555.cvm.util.MathUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -22,8 +23,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomVehicleEntity extends Entity implements PlayerRideable {
     private static final EntityDataAccessor<Float> SPEED = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.FLOAT);
@@ -32,6 +34,11 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
     private static final EntityDataAccessor<Boolean> BACKWARD = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<String> PARTS_FRONT = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> PARTS_MIDDLE = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> PARTS_REAR = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> PARTS_TIRE = SynchedEntityData.defineId(CustomVehicleEntity.class, EntityDataSerializers.STRING);
 
     private int steps;
     private double clientX;
@@ -50,8 +57,8 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
     private float rotationModifier;
     private float pitch;
 
-    private double CarWidth;
-    private double CarHeight;
+    private double carWidth;
+    private double carHeight;
 
     @OnlyIn(Dist.CLIENT)
     private boolean collidedLastTick;
@@ -62,32 +69,35 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
      * @param pLevel
      */
     public CustomVehicleEntity(EntityType<? extends Entity> pEntityType, Level pLevel) {
-//        super(ModEntities.TEST_VEHICLE.get(), pLevel);
         super(pEntityType, pLevel);
         this.blocksBuilding = true;
         this.setMaxUpStep(1f);
         recalculateBoundingBox();
     }
 
-
-    //========================================【初期処理(S)】========================================
+    //========================================【SynchedEntityData関連処理(S)】========================================
     @Override
-    protected void readAdditionalSaveData(CompoundTag p_20052_) {
-
+    public void readAdditionalSaveData(CompoundTag cTag) {
+        // NBTタグ情報をパーツ情報に反映する
+        this.entityData.set(PARTS_FRONT, cTag.getString("cvm.parts.front"));
+        this.entityData.set(PARTS_MIDDLE, cTag.getString("cvm.parts.middle"));
+        this.entityData.set(PARTS_REAR, cTag.getString("cvm.parts.rear"));
+        this.entityData.set(PARTS_TIRE, cTag.getString("cvm.parts.tire"));
     }
     @Override
-    protected void addAdditionalSaveData(CompoundTag p_20139_) {
-
+    public void addAdditionalSaveData(CompoundTag cTag) {
+        // パーツ情報をNBTタグに保存する
+        cTag.putString("cvm.parts.front", this.entityData.get(PARTS_FRONT));
+        cTag.putString("cvm.parts.middle", this.entityData.get(PARTS_MIDDLE));
+        cTag.putString("cvm.parts.rear", this.entityData.get(PARTS_REAR));
+        cTag.putString("cvm.parts.tire", this.entityData.get(PARTS_TIRE));
     }
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return super.getAddEntityPacket();
     }
-    //========================================【初期処理(E)】========================================
 
-
-    //========================================【SynchedEntityData関連処理(S)】========================================
     @Override
     protected void defineSynchedData() {
         entityData.define(STARTED, false);
@@ -96,6 +106,11 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
         entityData.define(BACKWARD, false);
         entityData.define(LEFT, false);
         entityData.define(RIGHT, false);
+
+        entityData.define(PARTS_FRONT, "default");
+        entityData.define(PARTS_MIDDLE, "default");
+        entityData.define(PARTS_REAR, "default");
+        entityData.define(PARTS_TIRE, "default");
     }
 
     public void setSpeed(float speed) {
@@ -104,7 +119,6 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
     public float getSpeed() {
         return this.entityData.get(SPEED);
     }
-
     public void setForward(boolean forward) {
         entityData.set(FORWARD, forward);
     }
@@ -114,7 +128,6 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
         }
         return entityData.get(FORWARD);
     }
-
     public void setBackward(boolean backward) {
         entityData.set(BACKWARD, backward);
     }
@@ -124,7 +137,6 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
         }
         return entityData.get(BACKWARD);
     }
-
     public void setLeft(boolean left) {
         entityData.set(LEFT, left);
     }
@@ -138,6 +150,30 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
         return entityData.get(RIGHT);
     }
 
+    public void setPartsFront(String partsFront){
+        this.entityData.set(PARTS_FRONT, partsFront);
+    }
+    public String getPartsFront(){
+        return entityData.get(PARTS_FRONT);
+    }
+    public void setPartsMiddle(String partsMiddle){
+        this.entityData.set(PARTS_MIDDLE, partsMiddle);
+    }
+    public String getPartsMiddle(){
+        return entityData.get(PARTS_MIDDLE);
+    }
+    public void setPartsRear(String partsRear){
+        this.entityData.set(PARTS_REAR, partsRear);
+    }
+    public String getPartsRear(){
+        return entityData.get(PARTS_REAR);
+    }
+    public void setPartsTire(String partsTire){
+        this.entityData.set(PARTS_TIRE, partsTire);
+    }
+    public String getPartsTire(){
+        return entityData.get(PARTS_TIRE);
+    }
     //========================================【SynchedEntityData関連処理(E)】========================================
 
 
@@ -513,16 +549,16 @@ public class CustomVehicleEntity extends Entity implements PlayerRideable {
      * エンティティの当たり判定を取得する
      */
     public double getCarWidth() {
-        return CarWidth;
+        return carWidth;
     }
     public void setCarWidth(double carWidth) {
-        CarWidth = carWidth;
+        this.carWidth = carWidth;
     }
     public double getCarHeight() {
-        return CarHeight;
+        return carHeight;
     }
     public void setCarHeight(double carHeight) {
-        CarHeight = carHeight;
+        this.carHeight = carHeight;
     }
 
     /**

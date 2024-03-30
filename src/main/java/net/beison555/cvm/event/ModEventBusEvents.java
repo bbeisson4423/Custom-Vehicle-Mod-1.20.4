@@ -1,7 +1,10 @@
 package net.beison555.cvm.event;
 
 import net.beison555.cvm.CustomVehicleMod;
-import net.beison555.cvm.entity.client.model.*;
+import net.beison555.cvm.entity.client.model.curve.CurveFrontModel;
+import net.beison555.cvm.entity.client.model.curve.CurveMiddleModel;
+import net.beison555.cvm.entity.client.model.curve.CurveRearModel;
+import net.beison555.cvm.entity.client.model.test.*;
 import net.beison555.cvm.entity.layers.ModModelLayers;
 import net.beison555.cvm.net.PacketHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -25,6 +28,10 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(ModModelLayers.TEST_MIDDLE_LAYER, TestMiddleModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TEST_REAR_LAYER, TestRearModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TEST_TIRE_LAYER, TestTireModel::createBodyLayer);
+
+        event.registerLayerDefinition(ModModelLayers.CURVE_FRONT_LAYER, CurveFrontModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.CURVE_MIDDLE_LAYER, CurveMiddleModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.CURVE_REAR_LAYER, CurveRearModel::createBodyLayer);
     }
 
     @SubscribeEvent
