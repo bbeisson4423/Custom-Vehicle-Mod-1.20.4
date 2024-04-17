@@ -23,6 +23,9 @@ public class ModMenuTypes {
     public static final Supplier<MenuType<MaterializationDeviceMenu>> MATERIALIZATION_DEVICE_MENU =
             registerMenuType(MaterializationDeviceMenu::new, "materialization_device_menu");
 
+    public static final Supplier<MenuType<DesignDeviceMenu>> DESIGN_DEVICE_MENU =
+            registerMenuType(DesignDeviceMenu::new, "design_device_menu");
+
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
     }

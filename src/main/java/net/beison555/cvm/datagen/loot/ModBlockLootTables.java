@@ -16,6 +16,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     @Override
     protected void generate() {
         this.dropSelf(ModBlocks.MATERIALIZATION_DEVICE.get());
+        this.dropSelf(ModBlocks.DESIGN_DEVICE.get());
     }
 
     @Override

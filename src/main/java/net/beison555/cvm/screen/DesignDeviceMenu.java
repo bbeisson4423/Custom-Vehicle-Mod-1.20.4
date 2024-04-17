@@ -1,7 +1,7 @@
 package net.beison555.cvm.screen;
 
 import net.beison555.cvm.block.ModBlocks;
-import net.beison555.cvm.block.entity.MaterializationDeviceBlockEntity;
+import net.beison555.cvm.block.entity.DesignDeviceBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,19 +12,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class MaterializationDeviceMenu extends AbstractContainerMenu {
-    public final MaterializationDeviceBlockEntity blockEntity;
+public class DesignDeviceMenu extends AbstractContainerMenu {
+    public final DesignDeviceBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public MaterializationDeviceMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
+    public DesignDeviceMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public MaterializationDeviceMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.MATERIALIZATION_DEVICE_MENU.get(), pContainerId);
-        checkContainerSize(inv, 4);
-        blockEntity = ((MaterializationDeviceBlockEntity) entity);
+    public DesignDeviceMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(ModMenuTypes.DESIGN_DEVICE_MENU.get(), pContainerId);
+        checkContainerSize(inv, 12);
+        blockEntity = ((DesignDeviceBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
 
@@ -34,10 +34,29 @@ public class MaterializationDeviceMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         // GUI独自のアイテムスロットを定義(基準点は画面左端)
-
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             // 車両端末スロット
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 35));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 77));
+            // コアスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 17));
+            // 前方パーツスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 2, 80, 35));
+            // 中央パーツスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 3, 98, 35));
+            // 後方パーツスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 4, 116, 35));
+            // タイヤパーツスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 5, 134, 35));
+            // エンジンパーツスロット
+            this.addSlot(new SlotItemHandler(iItemHandler, 6, 152, 35));
+            // シートパーツスロット1
+            this.addSlot(new SlotItemHandler(iItemHandler, 7, 80, 53));
+            // シートパーツスロット2
+            this.addSlot(new SlotItemHandler(iItemHandler, 8, 98, 53));
+            // シートパーツスロット3
+            this.addSlot(new SlotItemHandler(iItemHandler, 9, 116, 53));
+            // シートパーツスロット4
+            this.addSlot(new SlotItemHandler(iItemHandler, 10, 134, 53));
         });
 
         addDataSlots(data);
@@ -108,24 +127,24 @@ public class MaterializationDeviceMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.MATERIALIZATION_DEVICE.get());
+                pPlayer, ModBlocks.DESIGN_DEVICE.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 105 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 163));
         }
     }
 
-    public MaterializationDeviceBlockEntity getBlockEntity() {
+    public DesignDeviceBlockEntity getBlockEntity() {
         return blockEntity;
     }
 

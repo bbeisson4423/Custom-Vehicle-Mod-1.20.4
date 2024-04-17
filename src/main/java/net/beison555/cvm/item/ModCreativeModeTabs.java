@@ -22,7 +22,12 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.cvm_tab"))
                     .displayItems((displayParameters, output) -> {
                         output.accept(ModItems.VEHICLE_TABLET.get());
+                        output.accept(ModBlocks.DESIGN_DEVICE.get());
                         output.accept(ModBlocks.MATERIALIZATION_DEVICE.get());
+                        output.accept(ModItems.GENERAL_FRONT.get());
+                        output.accept(ModItems.GENERAL_MIDDLE.get());
+                        output.accept(ModItems.GENERAL_REAR.get());
+                        output.accept(ModItems.GENERAL_TIRE.get());
                     }).build());
 
     public static void register(IEventBus eventBus){

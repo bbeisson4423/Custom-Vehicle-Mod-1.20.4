@@ -2,14 +2,21 @@
   "category.cvm": "Car",
 
   "block.cvm.materialization_device" : "実体化装置",
+  "block.cvm.design_device" : "設計装置",
 
-  "item.cvm.vehicle_tablet" : "車両タブレット",
+  "item.cvm.vehicle_tablet" : "車両端末",
+  "item.cvm.general_front" : "前方パーツ",
+  "item.cvm.general_middle" : "中央パーツ",
+  "item.cvm.general_rear" : "後方パーツ",
+  "item.cvm.general_tire" : "タイヤ",
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
 
   "container.cvm.materialization_device" : "実体化装置",
+  "container.cvm.design_device" : "設計装置",
 
   "button.cvm.materialization_device.spawn_car" : "車両展開",
+  "button.cvm.design_device.generate_tablet" : "設計",
 
   "key.car_forward": "前進",
   "key.car_back": "後退",

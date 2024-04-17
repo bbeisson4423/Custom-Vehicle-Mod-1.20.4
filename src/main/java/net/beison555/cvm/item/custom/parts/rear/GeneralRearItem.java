@@ -1,5 +1,6 @@
-package net.beison555.cvm.item.custom;
+package net.beison555.cvm.item.custom.parts.rear;
 
+import net.beison555.cvm.util.CodeConst;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,29 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VehicleTabletItem extends Item {
-    public VehicleTabletItem(Properties pProperties) {
+public class GeneralRearItem extends Item {
+    public GeneralRearItem(Properties pProperties) {
         super(pProperties);
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if(pPlayer.getItemInHand(pUsedHand).hasTag()){
-            CompoundTag cTag = pPlayer.getItemInHand(pUsedHand).getTag();
-            if("test".equals(cTag.getString("cvm.type"))){
-                cTag.putString("cvm.type", "curve");
-                pPlayer.getItemInHand(pUsedHand).setTag(cTag);
-            }else{
-                cTag.putString("cvm.type", "test");
-                pPlayer.getItemInHand(pUsedHand).setTag(cTag);
-            }
-        }else{
-            CompoundTag cTag = new CompoundTag();
-            cTag.putString("cvm.type", "test");
-            pPlayer.getItemInHand(pUsedHand).setTag(cTag);
-        }
-
-        return super.use(pLevel, pPlayer, pUsedHand);
     }
 
     @Override
@@ -44,13 +25,30 @@ public class VehicleTabletItem extends Item {
     }
 
     @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        if(pPlayer.getItemInHand(pUsedHand).hasTag()){
+            CompoundTag cTag = pPlayer.getItemInHand(pUsedHand).getTag();
+            if(CodeConst.PARTS_T3_REAR_TEST.equals(cTag.getString("cvm.parts.rear"))){
+                cTag.putString("cvm.parts.rear", CodeConst.PARTS_T3_REAR_CURVE);
+                pPlayer.getItemInHand(pUsedHand).setTag(cTag);
+            }else{
+                cTag.putString("cvm.parts.rear", CodeConst.PARTS_T3_REAR_TEST);
+                pPlayer.getItemInHand(pUsedHand).setTag(cTag);
+            }
+        }else{
+            CompoundTag cTag = new CompoundTag();
+            cTag.putString("cvm.parts.rear", CodeConst.PARTS_T3_REAR_TEST);
+            pPlayer.getItemInHand(pUsedHand).setTag(cTag);
+        }
+
+        return super.use(pLevel, pPlayer, pUsedHand);
+    }
+
+    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(pStack.hasTag()){
-            pTooltipComponents.add(Component.literal(pStack.getTag().getString("cvm.type")));
-            pTooltipComponents.add(Component.literal(pStack.getTag().getString("cvm.parts.front")));
-            pTooltipComponents.add(Component.literal(pStack.getTag().getString("cvm.parts.middle")));
-            pTooltipComponents.add(Component.literal(pStack.getTag().getString("cvm.parts.rear")));
-            pTooltipComponents.add(Component.literal(pStack.getTag().getString("cvm.parts.tire")));
+            String currentFoundOre = pStack.getTag().getString("cvm.parts.rear");
+            pTooltipComponents.add(Component.literal(currentFoundOre));
         }
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

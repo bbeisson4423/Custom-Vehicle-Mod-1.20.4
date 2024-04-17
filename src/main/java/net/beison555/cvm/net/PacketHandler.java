@@ -25,6 +25,11 @@ public class PacketHandler {
                 .decoder(ServerSpawnEntityPacket::new)
                 .consumerMainThread(ServerSpawnEntityPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(ServerDesignTabletPacket.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ServerDesignTabletPacket::encode)
+                .decoder(ServerDesignTabletPacket::new)
+                .consumerMainThread(ServerDesignTabletPacket::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {

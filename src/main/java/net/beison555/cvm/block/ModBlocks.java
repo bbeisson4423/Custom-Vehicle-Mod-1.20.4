@@ -1,6 +1,7 @@
 package net.beison555.cvm.block;
 
 import net.beison555.cvm.CustomVehicleMod;
+import net.beison555.cvm.block.custom.DesignDeviceBlock;
 import net.beison555.cvm.block.custom.MaterializationDeviceBlock;
 import net.beison555.cvm.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -21,6 +22,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> MATERIALIZATION_DEVICE = registerBlock("materialization_device",
             () -> new MaterializationDeviceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion()));
+
+    public static final RegistryObject<Block> DESIGN_DEVICE = registerBlock("design_device",
+            () -> new DesignDeviceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion()));
 
 
     private static <T extends Block>  RegistryObject<T> registerBlock(String name, Supplier<T> block){

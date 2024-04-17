@@ -3,6 +3,7 @@ package net.beison555.cvm.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.beison555.cvm.CustomVehicleMod;
 import net.beison555.cvm.net.PacketHandler;
+import net.beison555.cvm.net.ServerDesignTabletPacket;
 import net.beison555.cvm.net.ServerSpawnEntityPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -15,20 +16,23 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 
-public class MaterializationDeviceScreen extends AbstractContainerScreen<MaterializationDeviceMenu> {
+public class DesignDeviceScreen extends AbstractContainerScreen<DesignDeviceMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(CustomVehicleMod.MOD_ID,"textures/gui/materialization_device_gui.png");
+            new ResourceLocation(CustomVehicleMod.MOD_ID,"textures/gui/design_device_gui.png");
     private static final int FONT_COLOR = 4210752;
 
     private Level level;
     private Button buttonSpawn;
 
-    public MaterializationDeviceScreen(MaterializationDeviceMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public DesignDeviceScreen(DesignDeviceMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 
     @Override
     protected void init() {
+        this.imageWidth = 176;
+        this.imageHeight = 187;
+
         super.init();
         this.inventoryLabelY = 10000;
         this.titleLabelY = 10000;
@@ -36,14 +40,14 @@ public class MaterializationDeviceScreen extends AbstractContainerScreen<Materia
 
         // ボタン定義を追加
         // 実体化ボタン
-        buttonSpawn = addRenderableWidget(Button.builder(Component.translatable("button.cvm.materialization_device.spawn_car"), button -> {
+        buttonSpawn = addRenderableWidget(Button.builder(Component.translatable("button.cvm.design_device.generate_tablet"), button -> {
             if (level.isClientSide) {
                 // クリック音を再生
                 minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.f));
-                // エンティティを召喚する
-                PacketHandler.sendToServer(new ServerSpawnEntityPacket());
+                // 車両端末に情報を追加する
+                PacketHandler.sendToServer(new ServerDesignTabletPacket());
             }
-        }).bounds(leftPos + 110, topPos + 33, 49, 18).build());
+        }).bounds(leftPos + 116, topPos + 76, 49, 18).build());
     }
 
     @Override
@@ -55,9 +59,9 @@ public class MaterializationDeviceScreen extends AbstractContainerScreen<Materia
         guiGraphics.drawString(font, playerInventoryTitle.getVisualOrderText(), 8, imageHeight - 96 + 2, FONT_COLOR, false);
 
         // 車両展開ボタン
-        boolean hasVehicletablet = getMenu().getBlockEntity().hasVehicleTablet();
-        if(hasVehicletablet){
-            // 車両端末がGUIインベントリ内にある場合のみボタンを活性化
+        boolean canGenerateTablet = getMenu().getBlockEntity().hasRecipe();
+        if(canGenerateTablet){
+            // ボタンを活性化
             buttonSpawn.active = true;
         }else{
             buttonSpawn.active = false;

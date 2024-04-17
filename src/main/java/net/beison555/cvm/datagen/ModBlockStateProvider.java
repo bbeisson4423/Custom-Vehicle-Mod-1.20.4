@@ -20,5 +20,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void customLamp() {
         horizontalBlock(ModBlocks.MATERIALIZATION_DEVICE.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/materialization_device")));
+
+        horizontalBlock(ModBlocks.DESIGN_DEVICE.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/design_device")));
     }
 }

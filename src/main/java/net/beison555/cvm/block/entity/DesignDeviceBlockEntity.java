@@ -1,12 +1,12 @@
 package net.beison555.cvm.block.entity;
 
-import net.beison555.cvm.block.custom.MaterializationDeviceBlock;
+import net.beison555.cvm.block.custom.DesignDeviceBlock;
 import net.beison555.cvm.item.ModItems;
-import net.beison555.cvm.screen.MaterializationDeviceMenu;
-import net.beison555.cvm.util.InventoryDirectionEntry;
-import net.beison555.cvm.util.InventoryDirectionWrapper;
-import net.beison555.cvm.util.ModEnergyStorage;
-import net.beison555.cvm.util.WrappedHandler;
+import net.beison555.cvm.item.custom.parts.front.GeneralFrontItem;
+import net.beison555.cvm.item.custom.parts.middle.GeneralMiddleItem;
+import net.beison555.cvm.item.custom.parts.rear.GeneralRearItem;
+import net.beison555.cvm.screen.DesignDeviceMenu;
+import net.beison555.cvm.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,8 +36,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class MaterializationDeviceBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+public class DesignDeviceBlockEntity extends BlockEntity implements MenuProvider {
+    // アイテムスロットを定義する(インスタンス生成時の引数はスロット数を指定)
+    private final ItemStackHandler itemHandler = new ItemStackHandler(12) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -47,35 +47,34 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
             }
         }
 
-        /**
-         * アイテムスロットの格納候補を定義
-         * @param slot    Slot to query for validity
-         * @param stack   Stack to test with for validity
-         *
-         * @return
-         */
+        // アイテムスロットの格納候補を定義
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+
+
             return switch (slot) {
                 case 0 -> stack.getItem() == ModItems.VEHICLE_TABLET.get();
-//                case 1 -> stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+                case 2 -> stack.getItem() instanceof GeneralFrontItem;
+                case 3 -> stack.getItem() instanceof GeneralMiddleItem;
+                case 4 -> stack.getItem() instanceof GeneralRearItem;
+                case 5 -> stack.getItem() == ModItems.GENERAL_TIRE.get();
                 default -> super.isItemValid(slot, stack);
             };
         }
     };
 
-    private static final int INPUT_SLOT = 0;
+    private static final int INPUT_SLOT_TABLET = 0;
+    private static final int INPUT_SLOT_TIRE = 5;
 
-    // ホッパーなどの搬入・搬出アイテム場所を定義する
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
             new InventoryDirectionWrapper(itemHandler,
-                    new InventoryDirectionEntry(Direction.DOWN, INPUT_SLOT, false),
-                    new InventoryDirectionEntry(Direction.NORTH, INPUT_SLOT, false),
-                    new InventoryDirectionEntry(Direction.SOUTH, INPUT_SLOT, false),
-                    new InventoryDirectionEntry(Direction.EAST, INPUT_SLOT, false),
-                    new InventoryDirectionEntry(Direction.WEST, INPUT_SLOT, false),
-                    new InventoryDirectionEntry(Direction.UP, INPUT_SLOT, true)).directionsMap;
+                    new InventoryDirectionEntry(Direction.DOWN, INPUT_SLOT_TABLET, false),
+                    new InventoryDirectionEntry(Direction.NORTH, INPUT_SLOT_TABLET, false),
+                    new InventoryDirectionEntry(Direction.SOUTH, INPUT_SLOT_TABLET, false),
+                    new InventoryDirectionEntry(Direction.EAST, INPUT_SLOT_TABLET, false),
+                    new InventoryDirectionEntry(Direction.WEST, INPUT_SLOT_TABLET, false),
+                    new InventoryDirectionEntry(Direction.UP, INPUT_SLOT_TABLET, true)).directionsMap;
 
     private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
     private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
@@ -124,14 +123,14 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
 //        return stack;
 //    }
 
-    public MaterializationDeviceBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.MATERIALIZATION_DEVICE_BE.get(), pPos, pBlockState);
+    public DesignDeviceBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(ModBlockEntities.DESIGN_DEVICE_BE.get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {
                 return switch (pIndex) {
-                    case 0 -> MaterializationDeviceBlockEntity.this.progress;
-                    case 1 -> MaterializationDeviceBlockEntity.this.maxProgress;
+                    case 0 -> DesignDeviceBlockEntity.this.progress;
+                    case 1 -> DesignDeviceBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -139,8 +138,8 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
             @Override
             public void set(int pIndex, int pValue) {
                 switch (pIndex) {
-                    case 0 -> MaterializationDeviceBlockEntity.this.progress = pValue;
-                    case 1 -> MaterializationDeviceBlockEntity.this.maxProgress = pValue;
+                    case 0 -> DesignDeviceBlockEntity.this.progress = pValue;
+                    case 1 -> DesignDeviceBlockEntity.this.maxProgress = pValue;
                 }
             }
 
@@ -170,13 +169,13 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("container.cvm.materialization_device");
+        return Component.translatable("container.cvm.design_device");
     }
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new MaterializationDeviceMenu(pContainerId, pPlayerInventory, this, this.data);
+        return new DesignDeviceMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override
@@ -195,7 +194,7 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
             }
 
             if(directionWrappedHandlerMap.containsKey(side)) {
-                Direction localDir = this.getBlockState().getValue(MaterializationDeviceBlock.FACING);
+                Direction localDir = this.getBlockState().getValue(DesignDeviceBlock.FACING);
 
                 if(side == Direction.DOWN ||side == Direction.UP) {
                     return directionWrappedHandlerMap.get(side).cast();
@@ -278,30 +277,35 @@ public class MaterializationDeviceBlockEntity extends BlockEntity implements Men
 //                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + 1));
 //    }
 
-    private void resetProgress() {
-        this.progress = 0;
-    }
+    /**
+     * 車両端末のクラフト可否を返す
+     * @return
+     */
+    public boolean hasRecipe() {
+        boolean result = false;
+        ItemStack pStackTablet = this.itemHandler.getStackInSlot(INPUT_SLOT_TABLET);
 
-    private boolean hasProgressFinished() {
-        return this.progress >= this.maxProgress;
-    }
+        if(pStackTablet.getItem() == ModItems.VEHICLE_TABLET.get()
+            && InputCheck.isNullOrBlank(pStackTablet.getTag())){
+            // 情報が空の車両端末が存在する場合、Tierに応じたパーツがセットされているかチェックする
+            ItemStack pStackTire = this.itemHandler.getStackInSlot(INPUT_SLOT_TIRE);
+            if(pStackTire.getItem() == ModItems.GENERAL_TIRE.get()){
+                result = true;
+            }
+        }
 
-    private void increaseCraftingProcess() {
-        this.progress++;
+        return result;
     }
 
     public boolean hasVehicleTablet() {
-        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == ModItems.VEHICLE_TABLET.get();
+        return this.itemHandler.getStackInSlot(INPUT_SLOT_TABLET).getItem() == ModItems.VEHICLE_TABLET.get();
     }
 
     public ItemStackHandler getItemHandler() {
         return this.itemHandler;
     }
 
-//    private boolean hasRecipe() {
-//        return canInsertAmountIntoOutputSlot(1) && canInsertItemIntoOutputSlot(Items.IRON_BARS)
-//                && hasRecipeItemInInputSlot();
-//    }
+
 
 //    private boolean hasRecipeItemInInputSlot() {
 //        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == Items.IRON_ORE;

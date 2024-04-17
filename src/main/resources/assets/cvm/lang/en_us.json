@@ -2,14 +2,21 @@
   "category.cvm": "Car",
 
   "block.cvm.materialization_device" : "Materialization Device",
+  "block.cvm.design_device" : "Design Device",
 
   "item.cvm.vehicle_tablet" : "Vehicle Tablet",
+  "item.cvm.general_front" : "Front Parts",
+  "item.cvm.general_middle" : "Middle Parts",
+  "item.cvm.general_rear" : "Rear Parts",
+  "item.cvm.general_tire" : "Tire Parts",
 
   "creativetab.cvm_tab" : "Custom Vehicle Mod",
 
   "container.cvm.materialization_device" : "Materialization Device",
+  "container.cvm.design_device" : "Design Device",
 
-  "button.cvm.materialization_device.spawn_car" : "deploy",
+  "button.cvm.materialization_device.spawn_car" : "Deploy",
+  "button.cvm.design_device.generate_tablet" : "Design",
 
   "key.car_forward": "Forward",
   "key.car_back": "Back",

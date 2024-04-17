@@ -25,12 +25,10 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import static net.minecraft.world.level.block.Rotation.NONE;
 
-public class ServerSpawnEntityPacket {
+public class ServerSpawnEntityPacket extends ServerGeneralPacket{
     public ServerSpawnEntityPacket() {
     }
-    public ServerSpawnEntityPacket(FriendlyByteBuf buffer) {
-    }
-    public void encode(FriendlyByteBuf buffer) {
+    public ServerSpawnEntityPacket(FriendlyByteBuf friendlyByteBuf) {
     }
 
     /**
@@ -45,33 +43,25 @@ public class ServerSpawnEntityPacket {
         }
 
         ServerLevel level = player.serverLevel();
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+        BlockHitResult blockhitresult = this.getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         BlockPos blockpos = blockhitresult.getBlockPos();
         BlockEntity bEntity = level.getBlockEntity(blockpos);
         Direction dir = bEntity.getBlockState().getValue(MaterializationDeviceBlock.FACING);
 
         if(bEntity instanceof MaterializationDeviceBlockEntity){
-            String type = "";
             ItemStackHandler itemStackHandler = ((MaterializationDeviceBlockEntity) bEntity).getItemHandler();
             ItemStack pStack = itemStackHandler.getStackInSlot(0);
-            type = pStack.getTag().getString("cvm.type");
 
-            switch(type){
-                case "curve":
-                    vEntity = ModEntities.TEST_BODY.get().create(level);
-                    vEntity.setPartsFront(CodeConst.PARTS_T3_FRONT_CURVE);
-                    vEntity.setPartsMiddle(CodeConst.PARTS_T3_MIDDLE_CURVE);
-                    vEntity.setPartsRear(CodeConst.PARTS_T3_REAR_CURVE);
-                    vEntity.setPartsTire(CodeConst.PARTS_T3_TIRE_TEST);
-                    break;
-                default:
-                    vEntity = ModEntities.TEST_BODY.get().create(level);
-                    vEntity.setPartsFront(CodeConst.PARTS_T3_FRONT_TEST);
-                    vEntity.setPartsMiddle(CodeConst.PARTS_T3_MIDDLE_TEST);
-                    vEntity.setPartsRear(CodeConst.PARTS_T3_REAR_TEST);
-                    vEntity.setPartsTire(CodeConst.PARTS_T3_TIRE_TEST);
-                    break;
-            }
+            String front = pStack.getTag().getString("cvm.parts.front");
+            String middle = pStack.getTag().getString("cvm.parts.middle");
+            String rear = pStack.getTag().getString("cvm.parts.rear");
+            String tire = pStack.getTag().getString("cvm.parts.tire");
+
+            vEntity = ModEntities.TEST_BODY.get().create(level);
+            vEntity.setPartsFront(front);
+            vEntity.setPartsMiddle(middle);
+            vEntity.setPartsRear(rear);
+            vEntity.setPartsTire(tire);
         }
 
         // ブロックの向いている方角によってスポーン位置を設定する
@@ -109,27 +99,5 @@ public class ServerSpawnEntityPacket {
         for(ServerPlayer serverplayer : level.getEntitiesOfClass(ServerPlayer.class, vEntity.getBoundingBox().inflate(5.0D))) {
             CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayer, vEntity);
         }
-    }
-
-    /**
-     * プレイヤーの目線の情報を取得する(バニラ参考)
-     * @param level
-     * @param player
-     * @param fluid
-     * @return
-     */
-    private static BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
-        float f = player.getXRot();
-        float f1 = player.getYRot();
-        Vec3 vec3 = player.getEyePosition();
-        float f2 = Mth.cos(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
-        float f3 = Mth.sin(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
-        float f4 = -Mth.cos(-f * ((float)Math.PI / 180F));
-        float f5 = Mth.sin(-f * ((float)Math.PI / 180F));
-        float f6 = f3 * f4;
-        float f7 = f2 * f4;
-        double d0 = player.getBlockReach();
-        Vec3 vec31 = vec3.add((double)f6 * d0, (double)f5 * d0, (double)f7 * d0);
-        return level.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, fluid, player));
     }
 }

@@ -26,6 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.VEHICLE_TABLET);
 
         complexBlock(ModBlocks.MATERIALIZATION_DEVICE.get());
+        complexBlock(ModBlocks.DESIGN_DEVICE.get());
     }
 
     private ItemModelBuilder saplingItem(RegistryObject<Block> item) {

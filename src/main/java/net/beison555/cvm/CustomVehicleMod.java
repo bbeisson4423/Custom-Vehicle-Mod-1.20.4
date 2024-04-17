@@ -9,6 +9,7 @@ import net.beison555.cvm.entity.client.renderer.TestVehicleRenderer;
 import net.beison555.cvm.event.KeyEvents;
 import net.beison555.cvm.item.ModCreativeModeTabs;
 import net.beison555.cvm.item.ModItems;
+import net.beison555.cvm.screen.DesignDeviceScreen;
 import net.beison555.cvm.screen.MaterializationDeviceScreen;
 import net.beison555.cvm.screen.ModMenuTypes;
 import net.minecraft.client.KeyMapping;
@@ -96,6 +97,7 @@ public class CustomVehicleMod {
             EntityRenderers.register(ModEntities.TEST_VEHICLE.get(), TestVehicleRenderer::new);
             EntityRenderers.register(ModEntities.TEST_BODY.get(), TestBodyRenderer::new);
             MenuScreens.register(ModMenuTypes.MATERIALIZATION_DEVICE_MENU.get(), MaterializationDeviceScreen::new);
+            MenuScreens.register(ModMenuTypes.DESIGN_DEVICE_MENU.get(), DesignDeviceScreen::new);
         }
     }
 

@@ -17,6 +17,11 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(MaterializationDeviceBlockEntity::new,
                             ModBlocks.MATERIALIZATION_DEVICE.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<DesignDeviceBlockEntity>> DESIGN_DEVICE_BE =
+            BLOCK_ENTITIES.register("design_device_block_entity", () ->
+                    BlockEntityType.Builder.of(DesignDeviceBlockEntity::new,
+                            ModBlocks.DESIGN_DEVICE.get()).build(null));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }
